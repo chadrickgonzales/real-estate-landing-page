@@ -3,21 +3,6 @@ import './App.css'
 import PropertyCarousel from './components/PropertyCarousel'
 
 function App() {
-  const [displayValue, setDisplayValue] = useState(1)
-  const [showK, setShowK] = useState(false)
-  
-  const [lastYearValue, setLastYearValue] = useState(1)
-  const [showLastYearK, setShowLastYearK] = useState(false)
-  
-  const [fiveYearValue, setFiveYearValue] = useState(1)
-  const [showFiveYearK, setShowFiveYearK] = useState(false)
-  
-  const [loanAmountValue, setLoanAmountValue] = useState(1)
-  
-  const [grossRentValue, setGrossRentValue] = useState(1)
-  
-  const [lastYearPercent, setLastYearPercent] = useState(0)
-  const [fiveYearPercent, setFiveYearPercent] = useState(0)
   
   const [isVideoSticky, setIsVideoSticky] = useState(true)
   const [isDroneVideoVisible, setIsDroneVideoVisible] = useState(false)
@@ -117,169 +102,12 @@ function App() {
     }
   }, [isDroneVideoVisible])
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      let currentValue = 1
-      const interval = setInterval(() => {
-        currentValue += Math.ceil(950 / 60) 
-        
-        if (currentValue >= 950) {
-          currentValue = 950
-          setDisplayValue(currentValue)
-          clearInterval(interval)
-          
-          setTimeout(() => {
-            setShowK(true)
-          }, 100) 
-        } else {
-          setDisplayValue(currentValue)
-        }
-      }, 16) 
 
-      return () => clearInterval(interval)
-    }, 400) 
 
-    return () => clearTimeout(timer)
-  }, [])
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      let currentValue = 1
-      const interval = setInterval(() => {
-        currentValue += Math.ceil(920 / 60) // Slower counting for longer duration
-        
-        if (currentValue >= 920) {
-          currentValue = 920
-          setLastYearValue(currentValue)
-          clearInterval(interval)
-          
-          setTimeout(() => {
-            setShowLastYearK(true)
-          }, 100) // Faster K appearance
-        } else {
-          setLastYearValue(currentValue)
-        }
-      }, 16) // Slower interval for longer duration
 
-      return () => clearInterval(interval)
-    }, 600) // Start when Last Year section slides up (delay-6)
 
-    return () => clearTimeout(timer)
-  }, [])
 
-  // Animation for $524K (5 Years)
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      let currentValue = 1
-      const interval = setInterval(() => {
-        currentValue += Math.ceil(524 / 60) // Slower counting for longer duration
-        
-        if (currentValue >= 524) {
-          currentValue = 524
-          setFiveYearValue(currentValue)
-          clearInterval(interval)
-          
-          setTimeout(() => {
-            setShowFiveYearK(true)
-          }, 100) // Faster K appearance
-        } else {
-          setFiveYearValue(currentValue)
-        }
-      }, 16) // Slower interval for longer duration
-
-      return () => clearInterval(interval)
-    }, 800) // Start when 5 Years section slides up (delay-8)
-
-    return () => clearTimeout(timer)
-  }, [])
-
-  // Animation for $760,000 (Loan Amount)
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      let currentValue = 1
-      const interval = setInterval(() => {
-        currentValue += Math.ceil(760000 / 60) // Slower counting for longer duration
-        
-        if (currentValue >= 760000) {
-          currentValue = 760000
-          setLoanAmountValue(currentValue)
-          clearInterval(interval)
-        } else {
-          setLoanAmountValue(currentValue)
-        }
-      }, 16) // Slower interval for longer duration
-
-      return () => clearInterval(interval)
-    }, 1200) // Start when Loan Amount row slides up (delay-12)
-
-    return () => clearTimeout(timer)
-  }, [])
-
-  // Animation for $14,250 (Gross Rent)
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      let currentValue = 1
-      const interval = setInterval(() => {
-        currentValue += Math.ceil(14250 / 60) // Slower counting for longer duration
-        
-        if (currentValue >= 14250) {
-          currentValue = 14250
-          setGrossRentValue(currentValue)
-          clearInterval(interval)
-        } else {
-          setGrossRentValue(currentValue)
-        }
-      }, 16) // Slower interval for longer duration
-
-      return () => clearInterval(interval)
-    }, 1500) // Start when Gross Rent row slides up (delay-15)
-
-    return () => clearTimeout(timer)
-  }, [])
-
-  // Animation for 3.26% (Last Year percentage)
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      let currentValue = 0
-      const interval = setInterval(() => {
-        currentValue += 0.1 // Slower counting for longer duration
-        
-        if (currentValue >= 3.26) {
-          currentValue = 3.26
-          setLastYearPercent(currentValue)
-          clearInterval(interval)
-        } else {
-          setLastYearPercent(currentValue)
-        }
-      }, 16) // Slower interval for longer duration
-
-      return () => clearInterval(interval)
-    }, 600) // Start when Last Year section slides up (delay-6)
-
-    return () => clearTimeout(timer)
-  }, [])
-
-  // Animation for 81.30% (5 Years percentage)
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      let currentValue = 0
-      const interval = setInterval(() => {
-        currentValue += 1.5 // Slower counting for longer duration
-        
-        if (currentValue >= 81.30) {
-          currentValue = 81.30
-          setFiveYearPercent(currentValue)
-          clearInterval(interval)
-        } else {
-          setFiveYearPercent(currentValue)
-        }
-      }, 16) // Slower interval for longer duration
-
-      return () => clearInterval(interval)
-    }, 800) // Start when 5 Years section slides up (delay-8)
-
-    return () => clearTimeout(timer)
-  }, [])
 
   return (
     <div className="min-h-screen w-screen m-0 p-0">
