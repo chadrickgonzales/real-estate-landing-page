@@ -192,7 +192,7 @@ function App() {
           {/* All text centered */}
           <div className="text-white flex flex-col items-center text-center">
             <h1 className="text-4xl font-cinzel font-semibold drop-shadow-lg text-center">
-              MARCI METZGER 
+              MARCI METZGER - THE RIDGE REALTY GROUP
             </h1>
             <p className="text-4xl md:text-2xl mb-8 drop-shadow-md font-cinzel font-semibold text-center">
               Pahrump Realtor
