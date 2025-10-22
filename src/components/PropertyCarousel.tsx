@@ -162,7 +162,7 @@ export default function PropertyCarousel() {
           </div>
         </div>
 
-         <div className="flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0 mt-8 px-4 md:px-0">
+         <div className="flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0 mt-8 px-8 md:px-0">
            {/* Arrows */}
            <div className="flex justify-center md:justify-start gap-6 md:ml-52">
              <button onClick={prevSlide}>

@@ -22,6 +22,8 @@ function App() {
   const [droneVideoError, setDroneVideoError] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const heroRef = useRef(null)
+  const testimonialSectionRef = useRef(null)
+  const provenResultsSectionRef = useRef(null)
   const droneSectionRef = useRef(null)
   const heroImageSectionRef = useRef(null)
   const heroVideoRef = useRef<HTMLVideoElement>(null)
@@ -29,7 +31,7 @@ function App() {
 
   // Intersection Observer for video visibility - ensures only one video plays at a time
   useEffect(() => {
-    if (!heroRef.current || !droneSectionRef.current || !heroImageSectionRef.current) return
+    if (!heroRef.current || !testimonialSectionRef.current || !provenResultsSectionRef.current || !droneSectionRef.current || !heroImageSectionRef.current) return
 
     const heroObserver = new IntersectionObserver(
       (entries) => {
@@ -39,6 +41,40 @@ function App() {
             setIsVideoSticky(true)
             setIsDroneVideoVisible(false) // Hide drone video when hero is visible
             setIsHeroImageVisible(false) // Hide hero image when hero video is visible
+          }
+        })
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px'
+      }
+    )
+
+    const testimonialObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          console.log('Testimonial section intersection:', entry.isIntersecting)
+          if (entry.isIntersecting) {
+            setIsVideoSticky(false) // Hide hero video when testimonial is visible
+            setIsDroneVideoVisible(false) // Hide drone video when testimonial is visible
+            setIsHeroImageVisible(false) // Hide hero image when testimonial is visible
+          }
+        })
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px'
+      }
+    )
+
+    const provenResultsObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          console.log('Proven Results section intersection:', entry.isIntersecting)
+          if (entry.isIntersecting) {
+            setIsVideoSticky(false) // Hide hero video when proven results is visible
+            setIsDroneVideoVisible(false) // Hide drone video when proven results is visible
+            setIsHeroImageVisible(false) // Hide hero image when proven results is visible
           }
         })
       },
@@ -83,11 +119,15 @@ function App() {
     )
 
     heroObserver.observe(heroRef.current)
+    testimonialObserver.observe(testimonialSectionRef.current)
+    provenResultsObserver.observe(provenResultsSectionRef.current)
     droneObserver.observe(droneSectionRef.current)
     heroImageObserver.observe(heroImageSectionRef.current)
 
     return () => {
       if (heroRef.current) heroObserver.unobserve(heroRef.current)
+      if (testimonialSectionRef.current) testimonialObserver.unobserve(testimonialSectionRef.current)
+      if (provenResultsSectionRef.current) provenResultsObserver.unobserve(provenResultsSectionRef.current)
       if (droneSectionRef.current) droneObserver.unobserve(droneSectionRef.current)
       if (heroImageSectionRef.current) heroImageObserver.unobserve(heroImageSectionRef.current)
     }
@@ -174,24 +214,86 @@ function App() {
           </div>
           
           {/* Mobile Menu */}
-          {isMobileMenuOpen && (
-            <div className="md:hidden absolute top-full left-0 right-0 bg-black/90 backdrop-blur-sm border-t border-white/20">
-              <div className="px-4 py-4 space-y-4">
-                <a href="#home" className="block text-white hover:text-blue-300 py-2 text-base font-medium transition-colors">
+          <div className={`md:hidden fixed inset-0 z-50 transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+            {/* Backdrop */}
+            <div 
+              className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}
+              onClick={() => setIsMobileMenuOpen(false)}
+            ></div>
+            
+            {/* Sidebar */}
+            <div className={`absolute right-0 top-0 h-full w-80 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+              {/* Close Button */}
+              <div className="flex justify-end p-6">
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-gray-600 hover:text-gray-800 transition-colors duration-300"
+                >
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              {/* Logo */}
+              <div className={`flex justify-center mb-12 transition-all duration-500 delay-100 ${isMobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+                <img 
+                  src={logoImg} 
+                  alt="Logo" 
+                  className="h-16 w-auto"
+                />
+              </div>
+              
+              {/* Navigation Links */}
+              <div className="px-8 space-y-6">
+                <a 
+                  href="#home" 
+                  className={`block text-gray-800 hover:text-blue-600 py-4 text-lg font-medium transition-all duration-300 border-b border-gray-200 ${isMobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}
+                  style={{ transitionDelay: isMobileMenuOpen ? '200ms' : '0ms' }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
                   Home
                 </a>
-                <a href="#listings" className="block text-white hover:text-blue-300 py-2 text-base font-medium transition-colors">
+                <a 
+                  href="#listings" 
+                  className={`block text-gray-800 hover:text-blue-600 py-4 text-lg font-medium transition-all duration-300 border-b border-gray-200 ${isMobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}
+                  style={{ transitionDelay: isMobileMenuOpen ? '250ms' : '0ms' }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
                   Listings
                 </a>
-                <a href="#lets-move" className="block text-white hover:text-blue-300 py-2 text-base font-medium transition-colors">
+                <a 
+                  href="#lets-move" 
+                  className={`block text-gray-800 hover:text-blue-600 py-4 text-lg font-medium transition-all duration-300 border-b border-gray-200 ${isMobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}
+                  style={{ transitionDelay: isMobileMenuOpen ? '300ms' : '0ms' }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
                   Let's Move
                 </a>
-                <a href="#about" className="block text-white hover:text-blue-300 py-2 text-base font-medium transition-colors">
+                <a 
+                  href="#about" 
+                  className={`block text-gray-800 hover:text-blue-600 py-4 text-lg font-medium transition-all duration-300 border-b border-gray-200 ${isMobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}
+                  style={{ transitionDelay: isMobileMenuOpen ? '350ms' : '0ms' }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
                   About Us
                 </a>
               </div>
+              
+              {/* Contact Info */}
+              <div className={`absolute bottom-8 left-8 right-8 transition-all duration-500 delay-400 ${isMobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+                <div className="text-center">
+                  <h3 className="text-lg font-syncopate font-bold text-gray-800 mb-2">MARCI METZGER</h3>
+                  <p className="text-gray-600 mb-1">
+                    <a href="tel:7025550123" className="hover:text-gray-800 transition-colors">702.555.0123</a>
+                  </p>
+                  <p className="text-gray-600 text-sm">
+                    <a href="mailto:marci@theridgerealtygroup.com" className="hover:text-gray-800 transition-colors">marci@theridgerealtygroup.com</a>
+                  </p>
+                </div>
+              </div>
             </div>
-          )}
+          </div>
         </div>
       </nav>
 
@@ -361,7 +463,7 @@ function App() {
           </div>
 
           {/* Achievement Quote Section */}
-          <div className="text-center mb-12 sm:mb-16">
+          <div ref={testimonialSectionRef} className="text-center mb-12 sm:mb-16">
             <blockquote className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bicylette font-normal text-gray-800 leading-relaxed max-w-4xl mx-auto mb-4 sm:mb-6 px-4">
               "I love that small-town feeling that our community offers. My success comes from helping clients 
               find homes that suit them as well as our community suits me — with spectacular golf courses, 
@@ -378,10 +480,7 @@ function App() {
       <section className="h-[95vh] w-full relative overflow-hidden">
         {/* Background Image */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url(${heroWebp})`
-          }}
+          
         >
           {/* Dark overlay for better text readability */}
           <div className="absolute inset-0 bg-black/40"></div>
@@ -392,23 +491,27 @@ function App() {
           <div className="w-full h-full">
             <div className="w-full h-full">
               {/* Three Big Buttons */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-0 w-full h-full">
+              <div className="flex flex-col md:grid md:grid-cols-3 gap-0 w-full h-full">
                 {/* Button 1 - Bespoke Marketing */}
-                <div className="group cursor-pointer w-full h-full">
+                <div className="group cursor-pointer w-full h-full relative">
                   <div className="bg-transparent border border-white/20 p-4 sm:p-6 lg:p-8 h-full flex items-center justify-center hover:backdrop-blur-md transition-all duration-300 w-full">
                     <h3 className="text-white font-syncopate text-center tracking-wide group-hover:-translate-y-2 transition-transform duration-300 text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl">
                       REAL ESTATE DONE RIGHT
                     </h3>
                   </div>
+                  {/* White divider line for mobile */}
+                  <div className="md:hidden absolute bottom-0 left-4 right-4 h-px bg-white/30"></div>
                 </div>
 
                 {/* Button 2 - Property Valuation */}
-                <div className="group cursor-pointer w-full h-full">
+                <div className="group cursor-pointer w-full h-full relative">
                   <div className="bg-transparent border border-white/20 md:border-l-white md:border-r-white p-4 sm:p-6 lg:p-8 h-full flex items-center justify-center hover:backdrop-blur-md transition-all duration-300 w-full">
                     <h3 className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-syncopate text-center tracking-wide group-hover:-translate-y-2 transition-transform duration-300">
                       COMMERCIAL & RESIDENTIAL
                     </h3>
                   </div>
+                  {/* White divider line for mobile */}
+                  <div className="md:hidden absolute bottom-0 left-4 right-4 h-px bg-white/30"></div>
                 </div>
 
                 {/* Button 3 - Market Leaders */}
@@ -426,7 +529,7 @@ function App() {
       </section>
 
       {/* Proven Results Section */}
-      <section className="min-h-screen w-full relative" style={{backgroundColor: '#BEAF9E'}}>
+      <section ref={provenResultsSectionRef} className="min-h-screen w-full relative" style={{backgroundColor: '#BEAF9E'}}>
         {/* Text Content - Centered at Top */}
         <div className="w-full flex flex-col items-center justify-start pt-12 sm:pt-16 lg:pt-20 px-4 sm:px-8 lg:px-16">
           {/* Main Title */}
@@ -517,11 +620,11 @@ function App() {
             </p>
             <div className="w-[80vw] h-px bg-gray-400 mx-auto mt-4 sm:mt-6"></div>
           </div>
-          
-          {/* Property Carousel */}
-          <div className="relative w-full overflow-x-hidden">
+        </div>
+        
+        {/* Property Carousel - Full Width */}
+        <div className="relative w-full overflow-x-hidden">
           <PropertyCarousel />
-          </div>
         </div>
       </section>
 
@@ -618,7 +721,7 @@ function App() {
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-black/40"></div>
-                    <div className="bg-transparent border border-white/20 border-l-white border-r-white p-4 sm:p-6 lg:p-8 h-full flex items-end justify-center hover:backdrop-blur-sm transition-all duration-300 w-full absolute inset-0">
+                    <div className="bg-transparent border border-white/20 md:border-l-white md:border-r-white p-4 sm:p-6 lg:p-8 h-full flex items-end justify-center hover:backdrop-blur-sm transition-all duration-300 w-full absolute inset-0">
                       <h3 className="text-white font-bicylette text-center tracking-wide group-hover:-translate-y-2 transition-transform duration-300 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">
                         PAHRUMP VALLEY WINERY
                       </h3>
