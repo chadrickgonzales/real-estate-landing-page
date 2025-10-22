@@ -2,6 +2,17 @@ import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import PropertyCarousel from './components/PropertyCarousel'
 
+// Import images
+import logoImg from './assets/images/logo.png'
+import heroMp4 from './assets/images/hero.mp4'
+import heroWebp from './assets/images/hero.webp'
+import heroJpeg from './assets/images/hero.jpeg'
+import image1 from './assets/images/1.webp'
+import image2 from './assets/images/2.webp'
+import image3 from './assets/images/3.webp'
+import owner1 from './assets/images/owner1.webp'
+import droneWebm from './assets/images/drone.webm'
+
 function App() {
   
   const [isVideoSticky, setIsVideoSticky] = useState(true)
@@ -128,7 +139,7 @@ function App() {
                 {/* Logo in Center */}
                 <div className="flex items-center">
                   <img 
-                    src="/src/assets/images/logo.png" 
+                    src={logoImg} 
                     alt="Logo" 
                     className="h-20 w-auto"
                   />
@@ -168,7 +179,7 @@ function App() {
           className="w-full h-full object-cover"
           onError={(e) => console.error('Hero video load error:', e)}
         >
-          <source src="/src/assets/images/hero.mp4" type="video/mp4" />
+          <source src={heroMp4} type="video/mp4" />
         </video>
         
         {/* Dark overlay for better text readability */}
@@ -215,7 +226,7 @@ function App() {
             {/* Panel 1 - Who You Work With Matters */}
             <div className="relative aspect-square overflow-hidden group cursor-pointer shadow-2xl">
               <img 
-                src="/src/assets/images/1.webp" 
+                src={image1} 
                 alt="Modern Interior" 
                 className="w-full h-full object-cover"
               />
@@ -228,7 +239,7 @@ function App() {
             {/* Panel 2 - Property Valuation */}
             <div className="relative aspect-square overflow-hidden group cursor-pointer shadow-2xl">
               <img 
-                src="/src/assets/images/2.webp" 
+                src={image2} 
                 alt="Luxury Property" 
                 className="w-full h-full object-cover"
               />
@@ -241,7 +252,7 @@ function App() {
             {/* Panel 3 - Press */}
             <div className="relative aspect-square overflow-hidden group cursor-pointer shadow-2xl">
               <img 
-                src="/src/assets/images/3.webp" 
+                src={image3} 
                 alt="Professional Portrait" 
                 className="w-full h-full object-cover"
               />
@@ -272,7 +283,7 @@ function App() {
             <div className="relative">
               <div className="aspect-[45/39] overflow-hidden shadow-2xl">
                 <img 
-                  src="/src/assets/images/owner1.webp" 
+                  src={owner1} 
                   alt="Professional Portrait of Marci Metzger" 
                   className="w-full h-auto object-cover"
                 />
@@ -340,7 +351,7 @@ function App() {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url(/src/assets/images/hero.webp)'
+            backgroundImage: `url(${heroWebp})`
           }}
         >
           {/* Dark overlay for better text readability */}
@@ -446,7 +457,7 @@ function App() {
             {/* Main Exterior Image (Right Side) */}
             <div className="absolute bottom-0 right-80 w-2/4 h-full">
               <img 
-                src="/src/assets/images/hero.webp" 
+                src={heroWebp} 
                 alt="Luxury Property Exterior" 
                 className="w-full h-full object-cover"
               />
@@ -455,7 +466,7 @@ function App() {
             {/* Interior Kitchen/Living Image (Left Side, Overlapping) */}
             <div className="absolute top-1/4 -left-32 w-2/5 h-2/5 z-50">
               <img 
-                src="/src/assets/images/1.webp" 
+                src={image1} 
                 alt="Luxury Interior Kitchen" 
                 className="w-full h-full object-cover"
               />
@@ -508,7 +519,7 @@ function App() {
             onLoadStart={() => console.log('Drone video loading started')}
             onCanPlay={() => console.log('Drone video can play')}
           >
-            <source src="/src/assets/images/drone.webm" type="video/webm" />
+            <source src={droneWebm} type="video/webm" />
             <source src="./src/assets/images/drone.webm" type="video/webm" />
             <source src="src/assets/images/drone.webm" type="video/webm" />
           </video>
@@ -558,7 +569,7 @@ function App() {
                   {/* Downtown Pahrump Panel */}
                   <div className="group cursor-pointer w-full h-full relative overflow-hidden">
                     <img 
-                      src="/src/assets/images/1.webp" 
+                      src={image1} 
                       alt="Downtown Pahrump Luxury Interior" 
                       className="w-full h-full object-cover"
                     />
@@ -573,7 +584,7 @@ function App() {
                   {/* West Lake Hills Panel */}
                   <div className="group cursor-pointer w-full h-full relative overflow-hidden">
                     <img 
-                      src="/src/assets/images/2.webp" 
+                      src={image2} 
                       alt="West Lake Hills Luxury Property" 
                       className="w-full h-full object-cover"
                     />
@@ -588,7 +599,7 @@ function App() {
                   {/* Old West Pahrump Panel */}
                   <div className="group cursor-pointer w-full h-full relative overflow-hidden">
                     <img 
-                      src="/src/assets/images/3.webp" 
+                      src={image3} 
                       alt="Old West Pahrump Traditional Home" 
                       className="w-full h-full object-cover"
                     />
@@ -647,7 +658,7 @@ function App() {
             <div className="bg-white overflow-hidden group cursor-pointer">
               <div className="aspect-[4/3] overflow-hidden">
                 <img 
-                  src="/src/assets/images/1.webp" 
+                  src={image1} 
                   alt="Luxury Property Interior" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
@@ -669,7 +680,7 @@ function App() {
             <div className="bg-white overflow-hidden group cursor-pointer">
               <div className="aspect-[4/3] overflow-hidden">
                 <img 
-                  src="/src/assets/images/2.webp" 
+                  src={image2} 
                   alt="Pahrump Lake Area" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
@@ -700,7 +711,7 @@ function App() {
           <div 
             className="w-full h-full bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: 'url(/src/assets/images/hero.jpeg)'
+              backgroundImage: `url(${heroJpeg})`
             }}
           >
             {/* Dark overlay for better text readability */}
@@ -831,7 +842,7 @@ function App() {
               <div 
                 className="w-full h-full bg-cover bg-center bg-no-repeat"
                 style={{
-                  backgroundImage: 'url(/src/assets/images/owner1.webp)'
+                  backgroundImage: `url(${owner1})`
                 }}
               >
                 {/* Dark overlay */}
