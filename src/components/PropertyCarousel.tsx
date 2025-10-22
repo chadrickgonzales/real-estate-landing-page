@@ -162,24 +162,24 @@ export default function PropertyCarousel() {
           </div>
         </div>
 
-        <div className="flex flex-row justify-between">
-          {/* Arrows */}
-          <div className="flex justify-start gap-6 mt-8 ml-52">
-            <button onClick={prevSlide}>
-              <ChevronLeft className="w-10 h-10" />
-            </button>
-            <button onClick={nextSlide}>
-              <ChevronRight className="w-10 h-10" />
-            </button>
-          </div>
+         <div className="flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0 mt-8 px-4 md:px-0">
+           {/* Arrows */}
+           <div className="flex justify-center md:justify-start gap-6 md:ml-52">
+             <button onClick={prevSlide}>
+               <ChevronLeft className="w-8 h-8 md:w-10 md:h-10" />
+             </button>
+             <button onClick={nextSlide}>
+               <ChevronRight className="w-8 h-8 md:w-10 md:h-10" />
+             </button>
+           </div>
 
-          {/* View All Button */}
-          <div className="text-center mt-10 mr-56">
-            <button className="border border-black px-10 py-4 text-sm font-medium tracking-widest hover:bg-black hover:text-white transition">
-              VIEW ALL PROPERTIES
-            </button>
-          </div>
-        </div>
+           {/* View All Button */}
+           <div className="text-center md:mr-56">
+             <button className="border border-black px-6 py-3 md:px-10 md:py-4 text-xs md:text-sm font-medium tracking-widest hover:bg-black hover:text-white transition">
+               VIEW ALL PROPERTIES
+             </button>
+           </div>
+         </div>
       </div>
     </div>
   );

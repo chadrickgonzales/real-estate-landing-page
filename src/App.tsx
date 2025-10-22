@@ -126,44 +126,14 @@ function App() {
       {/* Navigation Bar */}
       <nav className="relative z-50">
         <div className="w-full px-4 py-4 sm:px-6 lg:px-8">
-          <div className="relative flex items-center justify-between h-16">
-            {/* Mobile Logo */}
-            <div className="md:hidden">
+          <div className="relative flex items-center h-16">
+            {/* Mobile Layout */}
+            <div className="md:hidden flex items-center justify-between w-full">
               <img 
                 src={logoImg} 
                 alt="Logo" 
                 className="h-12 w-auto"
               />
-            </div>
-            
-            {/* Desktop Navigation Links with Logo in Center */}
-            <div className="hidden md:flex items-center space-x-8">
-              <a href="#home" className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
-                Home
-              </a>
-              <a href="#listings" className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
-                Listings
-              </a>
-              
-              {/* Logo in Center */}
-              <div className="flex items-center">
-                <img 
-                  src={logoImg} 
-                  alt="Logo" 
-                  className="h-16 lg:h-20 w-auto"
-                />
-              </div>
-              
-              <a href="#lets-move" className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
-                Let's Move
-              </a>
-              <a href="#about" className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
-                About Us
-              </a>
-            </div>
-            
-            {/* Mobile menu button */}
-            <div className="md:hidden">
               <button 
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="text-white hover:text-gray-300 transition-colors"
@@ -172,6 +142,34 @@ function App() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
+            </div>
+            
+            {/* Desktop Navigation Links with Logo in Center - Absolutely Centered */}
+            <div className="hidden md:flex items-center justify-center w-full">
+              <div className="flex items-center space-x-8">
+                <a href="#home" className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
+                  Home
+                </a>
+                <a href="#listings" className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
+                  Listings
+                </a>
+                
+                {/* Logo in Center */}
+                <div className="flex items-center">
+                  <img 
+                    src={logoImg} 
+                    alt="Logo" 
+                    className="h-16 lg:h-20 w-auto"
+                  />
+                </div>
+                
+                <a href="#lets-move" className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
+                  Let's Move
+                </a>
+                <a href="#about" className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
+                  About Us
+                </a>
+              </div>
             </div>
           </div>
           
@@ -394,7 +392,7 @@ function App() {
           <div className="w-full h-full">
             <div className="w-full h-full">
               {/* Three Big Buttons */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-0 w-full h-full">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-0 w-full h-full">
                 {/* Button 1 - Bespoke Marketing */}
                 <div className="group cursor-pointer w-full h-full">
                   <div className="bg-transparent border border-white/20 p-4 sm:p-6 lg:p-8 h-full flex items-center justify-center hover:backdrop-blur-md transition-all duration-300 w-full">
@@ -406,7 +404,7 @@ function App() {
 
                 {/* Button 2 - Property Valuation */}
                 <div className="group cursor-pointer w-full h-full">
-                  <div className="bg-transparent border border-white/20 border-l-white border-r-white p-4 sm:p-6 lg:p-8 h-full flex items-center justify-center hover:backdrop-blur-md transition-all duration-300 w-full">
+                  <div className="bg-transparent border border-white/20 md:border-l-white md:border-r-white p-4 sm:p-6 lg:p-8 h-full flex items-center justify-center hover:backdrop-blur-md transition-all duration-300 w-full">
                     <h3 className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-syncopate text-center tracking-wide group-hover:-translate-y-2 transition-transform duration-300">
                       COMMERCIAL & RESIDENTIAL
                     </h3>
