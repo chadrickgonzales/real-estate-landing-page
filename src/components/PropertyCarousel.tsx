@@ -26,13 +26,6 @@ const properties = [
   },
   {
     id: 4,
-    image: "https://images.unsplash.com/photo-1600585154154-3d26d94e3d6f",
-    title: "Ocean View Villa",
-    price: "$12,500,000",
-    tag: "For Lease",
-  },
-  {
-    id: 5,
     image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994",
     title: "Downtown Loft",
     price: "$4,900,000",
@@ -171,7 +164,7 @@ export default function PropertyCarousel() {
 
         <div className="flex flex-row justify-between">
           {/* Arrows */}
-          <div className="flex justify-start gap-6 mt-8 ml-48">
+          <div className="flex justify-start gap-6 mt-8 ml-52">
             <button onClick={prevSlide}>
               <ChevronLeft className="w-10 h-10" />
             </button>
@@ -181,7 +174,7 @@ export default function PropertyCarousel() {
           </div>
 
           {/* View All Button */}
-          <div className="text-center mt-10 mr-48">
+          <div className="text-center mt-10 mr-56">
             <button className="border border-black px-10 py-4 text-sm font-medium tracking-widest hover:bg-black hover:text-white transition">
               VIEW ALL PROPERTIES
             </button>
