@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Cinzel:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Cinzel:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Syncopate:wght@400;700&family=Bicylette:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -14,6 +14,14 @@
 
 .font-helvetica-now {
   font-family: 'Inter', 'Helvetica Now Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.font-syncopate {
+  font-family: 'Syncopate', sans-serif;
+}
+
+.font-bicylette {
+  font-family: 'Bicylette', sans-serif;
 }
 
 .text-extra-large {

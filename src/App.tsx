@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
+import PropertyCarousel from './components/PropertyCarousel'
 
 function App() {
-  const [count, setCount] = useState(0)
   const [displayValue, setDisplayValue] = useState(1)
   const [showK, setShowK] = useState(false)
   
@@ -18,6 +18,23 @@ function App() {
   
   const [lastYearPercent, setLastYearPercent] = useState(0)
   const [fiveYearPercent, setFiveYearPercent] = useState(0)
+  
+  const [isVideoSticky, setIsVideoSticky] = useState(true)
+  const heroRef = useRef(null)
+
+  // Scroll detection for video sticky behavior
+  useEffect(() => {
+    const handleScroll = () => {
+      if (heroRef.current) {
+        const heroRect = heroRef.current.getBoundingClientRect()
+        // When hero section is completely scrolled past, make video scroll normally
+        setIsVideoSticky(heroRect.bottom > 0)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -186,27 +203,28 @@ function App() {
   return (
     <div className="min-h-screen w-screen m-0 p-0">
       {/* Navigation Bar */}
-      <nav className="">
+      <nav className="relative z-50">
         <div className="w-full px-4 py-4 sm:px-6 lg:px-8">
           <div className="relative flex items-center h-16">
-            {/* Logo */}
-            <div className="flex items-center ml-24">
-              <img 
-                src="/src/assets/images/logo.png" 
-                alt="Logo" 
-                className="h-20 w-auto"
-              />
-            </div>
-            
-            {/* Navigation Links - Centered */}
+            {/* Navigation Links with Logo in Center */}
             <div className="absolute left-1/2 transform -translate-x-1/2 hidden md:block">
-              <div className="flex items-baseline space-x-4">
+              <div className="flex items-center space-x-8">
                 <a href="#home" className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-base font-medium transition-colors">
                   Home
                 </a>
                 <a href="#listings" className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-base font-medium transition-colors">
                   Listings
                 </a>
+                
+                {/* Logo in Center */}
+                <div className="flex items-center">
+                  <img 
+                    src="/src/assets/images/logo.png" 
+                    alt="Logo" 
+                    className="h-20 w-auto"
+                  />
+                </div>
+                
                 <a href="#lets-move" className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-base font-medium transition-colors">
                   Let's Move
                 </a>
@@ -228,8 +246,24 @@ function App() {
         </div>
       </nav>
 
+      {/* Video Background - Conditional Sticky */}
+      <div className={`${isVideoSticky ? 'fixed top-0 left-0 w-screen h-screen' : 'relative h-0'} -z-10`}>
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+        >
+          <source src="/src/assets/images/hero.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/40"></div>
+      </div>
+
       {/* Hero Section - Full Screen */}
-      <section className="h-screen w-full flex items-center justify-center">
+      <section ref={heroRef} className="h-screen w-full flex items-center justify-center relative z-20">
         <div className="w-full flex items-center justify-between">
           {/* All text aligned to left */}
           <div className="text-white flex flex-col justify-center h-screen text-left -mt-14 w-full">
@@ -467,6 +501,155 @@ function App() {
               <div className="text-gray-500 font-bold text-lg">BUSINESS INSIDER</div>
               <div className="text-gray-500 font-bold text-lg">dw</div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section with Background Image */}
+      <section className="h-[80vh] w-full relative overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url(/src/assets/images/hero.webp)'
+          }}
+        >
+          {/* Dark overlay for better text readability */}
+          <div className="absolute inset-0 bg-black/40"></div>
+        </div>
+        
+        {/* Content */}
+        <div className="relative z-10 h-[80vh] flex items-center justify-center">
+          <div className="w-full h-full">
+            <div className="w-full h-full">
+              {/* Three Big Buttons */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-0 w-full h-full">
+                {/* Button 1 - Bespoke Marketing */}
+                <div className="group cursor-pointer w-full h-full">
+                  <div className="bg-transparent border border-white/20 p-8 h-full flex items-center justify-center hover:backdrop-blur-sm transition-all duration-300 w-full">
+                    <h3 className="text-white text-[25px] font-syncopate  text-center tracking-wide group-hover:-translate-y-2 transition-transform duration-300">
+                      REAL ESTATE DONT RIGHT
+                    </h3>
+                  </div>
+                </div>
+
+                {/* Button 2 - Property Valuation */}
+                <div className="group cursor-pointer w-full h-full">
+                  <div className="bg-transparent border border-white/20 border-l-white border-r-white p-8 h-full flex items-center justify-center hover:backdrop-blur-sm transition-all duration-300 w-full">
+                    <h3 className="text-white text-[25px] font-syncopate  text-center tracking-wide group-hover:-translate-y-2 transition-transform duration-300">
+                      COMMERCIAL & RESIDENTIAL
+                    </h3>
+                  </div>
+                </div>
+
+                {/* Button 3 - Market Leaders */}
+                <div className="group cursor-pointer w-full h-full">
+                  <div className="bg-transparent border border-white/20 p-8 h-full flex items-center justify-center hover:backdrop-blur-sm transition-all duration-300 w-full">
+                    <h3 className="text-white text-[25px] font-syncopate text-center tracking-wide group-hover:-translate-y-2 transition-transform duration-300">
+                      RELY ON EXPERTISE
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Proven Results Section */}
+      <section className="min-h-screen w-full relative" style={{backgroundColor: '#DDCDBB'}}>
+        {/* Text Content - Centered at Top */}
+        <div className="w-full flex flex-col items-center justify-start pt-20 px-16">
+          {/* Main Title */}
+            <h1 className="text-[56px] font-syncopate font-normal text-white mb-6 tracking-wider text-center">
+              PROVEN RESULTS
+            </h1>
+          
+          {/* Subtitle */}
+          <h2 className="text-xl font-bicylette font-normal text-white mb-8 tracking-wide text-center uppercase">
+            CONSISTENTLY HONORED AMONG PAHRUMP'S SELECT MULTI-MILLION DOLLAR PRODUCERS
+          </h2>
+          
+          {/* Description Paragraph */}
+          <p className="text-lg font-bicylette font-normal text-white mb-12 text-center max-w-4xl mx-auto leading-relaxed">
+            With over a decade of experience, Marci Metzger is the face of Pahrump's luxury real estate market, 
+            with unparalleled passion and commitment to the Pahrump Lifestyle. As the #1 Realtor in Pahrump, NV 
+            for the last 6 consecutive years, Marci has sold over $50 Million throughout her career.
+          </p>
+        </div>
+        
+        {/* Bottom Section with Stats and Images */}
+        <div className="w-full h-full flex">
+          {/* Left Side - Stats Column */}
+          <div className="flex-1 flex flex-col justify-center px-16">
+            <div className="max-w-md mx-auto">
+              <div className="text-left space-y-8">
+                {/* Stat 1 */}
+                <div>
+                  <div className="text-7xl font-bicylette font-normal text-white mb-2">$50M</div>
+                  <div className="text-lg font-bicylette font-normal text-white">in Career Sales</div>
+                </div>
+                
+                {/* Stat 2 */}
+                <div>
+                  <div className="text-7xl font-bicylette font-normal text-white mb-2">#1</div>
+                  <div className="text-lg font-bicylette font-normal text-white">Realtor in Pahrump</div>
+                </div>
+                
+                {/* Stat 3 */}
+                <div>
+                  <div className="text-7xl font-bicylette font-normal text-white mb-2">$950K</div>
+                  <div className="text-lg font-bicylette font-normal text-white">Total Sales in 2023</div>
+                </div>
+                
+                {/* Stat 4 */}
+                <div>
+                  <div className="text-7xl font-bicylette font-normal text-white mb-2">#1</div>
+                  <div className="text-lg font-bicylette font-normal text-white">The Ridge Realty Group Agent</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Right Side - Image Collage */}
+          <div className="flex-1 relative ">
+            {/* Main Exterior Image (Right Side) */}
+            <div className="absolute bottom-0 right-80 w-2/4 h-full">
+              <img 
+                src="/src/assets/images/hero.webp" 
+                alt="Luxury Property Exterior" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+            
+            {/* Interior Kitchen/Living Image (Left Side, Overlapping) */}
+            <div className="absolute top-1/4 -left-32 w-2/5 h-2/5 z-50">
+              <img 
+                src="/src/assets/images/1.webp" 
+                alt="Luxury Interior Kitchen" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Kumara's Current Inventory Section */}
+      <section className="h-screen w-full bg-white py-12 overflow-hidden relative z-10">
+        <div className="w-full   ">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <h1 className="text-5xl font-bold text-black mb-4 tracking-tight">
+              MARCI METZGER'S CURRENT INVENTORY
+            </h1>
+            <p className="text-xl text-gray-700 font-medium">
+              REPRESENTING A BESPOKE COLLECTION OF PARHUM'S FINEST PROPERTIES
+            </p>
+          </div>
+          
+          {/* Property Carousel */}
+          <div className="relative w-screen overflow-x-hidden">
+          <PropertyCarousel />
           </div>
         </div>
       </section>
