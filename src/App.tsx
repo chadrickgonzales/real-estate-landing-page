@@ -29,6 +29,18 @@ function App() {
   const heroVideoRef = useRef<HTMLVideoElement>(null)
   const droneVideoRef = useRef<HTMLVideoElement>(null)
 
+  // Smooth scroll function for navigation links
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest'
+      })
+    }
+  }
+
   // Intersection Observer for video visibility - ensures only one video plays at a time
   useEffect(() => {
     if (!heroRef.current || !testimonialSectionRef.current || !provenResultsSectionRef.current || !droneSectionRef.current || !heroImageSectionRef.current) return
@@ -187,12 +199,12 @@ function App() {
             {/* Desktop Navigation Links with Logo in Center - Absolutely Centered */}
             <div className="hidden md:flex items-center justify-center w-full">
               <div className="flex items-center space-x-8">
-                <a href="#home" className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
+                <button onClick={() => scrollToSection('home')} className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
                   Home
-                </a>
-                <a href="#listings" className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
+                </button>
+                <button onClick={() => scrollToSection('listings')} className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
                   Listings
-                </a>
+                </button>
                 
                 {/* Logo in Center */}
                 <div className="flex items-center">
@@ -203,12 +215,12 @@ function App() {
                   />
                 </div>
                 
-                <a href="#lets-move" className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
+                <button onClick={() => scrollToSection('lets-move')} className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
                   Let's Move
-                </a>
-                <a href="#about" className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
+                </button>
+                <button onClick={() => scrollToSection('about')} className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
                   About Us
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -246,38 +258,46 @@ function App() {
               
               {/* Navigation Links */}
               <div className="px-8 space-y-6">
-                <a 
-                  href="#home" 
+                <button 
+                  onClick={() => {
+                    scrollToSection('home')
+                    setIsMobileMenuOpen(false)
+                  }}
                   className={`block text-gray-800 hover:text-blue-600 py-4 text-lg font-medium transition-all duration-300 border-b border-gray-200 ${isMobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}
                   style={{ transitionDelay: isMobileMenuOpen ? '200ms' : '0ms' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Home
-                </a>
-                <a 
-                  href="#listings" 
+                </button>
+                <button 
+                  onClick={() => {
+                    scrollToSection('listings')
+                    setIsMobileMenuOpen(false)
+                  }}
                   className={`block text-gray-800 hover:text-blue-600 py-4 text-lg font-medium transition-all duration-300 border-b border-gray-200 ${isMobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}
                   style={{ transitionDelay: isMobileMenuOpen ? '250ms' : '0ms' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Listings
-                </a>
-                <a 
-                  href="#lets-move" 
+                </button>
+                <button 
+                  onClick={() => {
+                    scrollToSection('lets-move')
+                    setIsMobileMenuOpen(false)
+                  }}
                   className={`block text-gray-800 hover:text-blue-600 py-4 text-lg font-medium transition-all duration-300 border-b border-gray-200 ${isMobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}
                   style={{ transitionDelay: isMobileMenuOpen ? '300ms' : '0ms' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Let's Move
-                </a>
-                <a 
-                  href="#about" 
+                </button>
+                <button 
+                  onClick={() => {
+                    scrollToSection('about')
+                    setIsMobileMenuOpen(false)
+                  }}
                   className={`block text-gray-800 hover:text-blue-600 py-4 text-lg font-medium transition-all duration-300 border-b border-gray-200 ${isMobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}
                   style={{ transitionDelay: isMobileMenuOpen ? '350ms' : '0ms' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   About Us
-                </a>
+                </button>
               </div>
               
               {/* Contact Info */}
@@ -318,7 +338,7 @@ function App() {
       </div>
 
       {/* Hero Section - Full Screen */}
-      <section ref={heroRef} className="h-[95vh] w-full relative z-20">
+      <section id="home" ref={heroRef} className="h-[95vh] w-full relative z-20">
         <div className="h-full w-full flex items-center justify-center px-4 sm:px-6 lg:px-8">
           {/* All text centered */}
           <div className="text-white flex flex-col items-center text-center max-w-4xl mt-8 sm:mt-12 lg:mt-16">
@@ -333,7 +353,7 @@ function App() {
       </section>
 
       {/* About Section - Luxury Real Estate Layout */}
-      <section className="min-h-screen w-full bg-white py-12 sm:py-16 lg:py-20 relative">
+      <section id="about" className="w-full bg-white py-12 sm:py-16 lg:py-20 relative">
         {/* Brown background rectangle spanning full width */}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-screen brown-bg-rectangle" style={{backgroundColor: '#F5F2ED'}}></div>
         
@@ -607,8 +627,8 @@ function App() {
         </div>
       </section>
 
-      {/* Kumara's Current Inventory Section */}
-      <section className="min-h-screen w-full bg-white py-12 sm:py-16 overflow-hidden relative z-10">
+        {/* Kumara's Current Inventory Section */}
+        <section id="listings" className="w-full bg-white py-12 sm:py-16 overflow-hidden relative z-10">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-12 sm:mb-16">
@@ -678,7 +698,7 @@ function App() {
       </section>
 
       {/* Explore Communities Section */}
-      <section className="min-h-screen w-full bg-white py-12 sm:py-16 lg:py-20">
+      <section id="lets-move" className="w-full bg-white py-12 sm:py-16 lg:py-20">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           {/* Header Section */}
           <div className="text-center mb-12 sm:mb-16">
@@ -795,14 +815,14 @@ function App() {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              <div className="text-left p-4 sm:p-6">
-                <h3 className="font-syncopate font-normal text-black mb-3 sm:mb-4 leading-tight mt-4 sm:mt-6 text-base sm:text-lg lg:text-xl">
+              <div className="text-left p-4 sm:p-6 flex flex-col items-start">
+                <h3 className="font-syncopate font-normal text-black mb-3 sm:mb-4 leading-tight mt-4 sm:mt-6 text-base sm:text-lg lg:text-xl text-left">
                   HOW TO DETERMINE YOUR NON-NEGOTIABLES WHEN BUYING A LUXURY PROPERTY
                 </h3>
-                <p className="font-syncopate text-gray-600 mb-3 sm:mb-4 text-xs sm:text-sm" style={{fontWeight: 600}}>
+                <p className="font-syncopate text-gray-600 mb-3 sm:mb-4 text-xs sm:text-sm text-left" style={{fontWeight: 600}}>
                   MARCI METZGER
                 </p>
-                <p className="font-bicylette text-gray-700 leading-relaxed text-sm sm:text-base lg:text-lg">
+                <p className="font-bicylette text-gray-700 leading-relaxed text-sm sm:text-base lg:text-lg text-left">
                   What do you need from your luxury home purchase? Define your musts for a smoother transaction.
                 </p>
               </div>
@@ -1168,7 +1188,7 @@ function App() {
           <div className="border-t border-gray-200 pt-4 sm:pt-6">
             <div className="flex flex-col lg:flex-row justify-between items-center">
               <p className="text-xs sm:text-sm font-bicylette text-gray-500 mb-2 lg:mb-0">
-                Powered by <a href="#" className="underline hover:text-black transition-colors">Luxury Presence</a>
+                Powered by <a href="#" className="underline hover:text-black transition-colors">Chadrick Gonzales</a>
               </p>
               <p className="text-xs sm:text-sm font-bicylette text-gray-500">
                 Copyright © 2025 | <a href="#" className="underline hover:text-black transition-colors">Privacy Policy</a>

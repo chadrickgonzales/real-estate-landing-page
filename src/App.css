@@ -4,6 +4,17 @@
   padding: 0;
 }
 
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* Ensure smooth scrolling works on all browsers */
+* {
+  scroll-behavior: smooth;
+}
+
 /* Import custom fonts */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400&display=swap');
