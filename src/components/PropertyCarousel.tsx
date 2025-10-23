@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion"; // 👈 added
 
 // Import property images
 import property1 from "../assets/images/property1.jpg";
