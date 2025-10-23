@@ -2,34 +2,88 @@ import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion"; // 👈 added
 
+// Import property images
+import property1 from "../assets/images/property1.jpg";
+import property2 from "../assets/images/property2.jpg";
+import property3 from "../assets/images/property3.jpg";
+import property4 from "../assets/images/property4.jpg";
+import property5 from "../assets/images/property5.jpg";
+import property6 from "../assets/images/property6.jpg";
+import property7 from "../assets/images/property7.jpg";
+import property8 from "../assets/images/property8.jpg";
+import property9 from "../assets/images/property9.jpg";
+import property10 from "../assets/images/property10.jpg";
+
 const properties = [
   {
     id: 1,
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
-    title: "SIXTH & BLANCO",
-    price: "$30,000,000",
-    tag: "Now Taking Reservations",
+    image: property1,
+    title: "5520 N Leslie Street, Pahrump, Nevada NV -1147",
+    price: "$1,490,999",
+    tag: "Available",
   },
   {
     id: 2,
-    image: "https://images.unsplash.com/photo-1599423300746-b62533397364",
-    title: "The Avery Tower",
-    price: "$15,000,000",
-    tag: "For Lease",
+    image: property2,
+    title: "4751 W Adkisson Street, Pahrump, Nevada NV -3541",
+    price: "$1,950,000",
+    tag: "For Sale",
   },
   {
     id: 3,
-    image: "https://images.unsplash.com/photo-1507089947368-19c1da9775ae",
-    title: "Marina Residence",
-    price: "$22,000,000",
+    image: property3,
+    title: "2301 Zephyr Avenue, Pahrump, Nevada NV -5532",
+    price: "$900,000",
     tag: "Available",
   },
   {
     id: 4,
-    image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994",
-    title: "Downtown Loft",
-    price: "$4,900,000",
+    image: property4,
+    title: "760 Fort Churchill Road, Pahrump, Nevada NV -1203",
+    price: "$1,280,000",
+    tag: "For Sale",
+  },
+  {
+    id: 5,
+    image: property5,
+    title: "4892 Quail Run Road, Pahrump, Nevada NV -3002",
+    price: "$1,100,000",
     tag: "Available",
+  },
+  {
+    id: 6,
+    image: property6,
+    title: "2851 Winchester Avenue, Pahrump, Nevada NV -0733",
+    price: "$975,000",
+    tag: "For Sale",
+  },
+  {
+    id: 7,
+    image: property7,
+    title: "1221 Marion Miller, Pahrump, Nevada NV -0791",
+    price: "$970,000",
+    tag: "Available",
+  },
+  {
+    id: 8,
+    image: property8,
+    title: "1830 E Fuchsia Street, Pahrump, Nevada NV -8355",
+    price: "$959,900",
+    tag: "For Sale",
+  },
+  {
+    id: 9,
+    image: property9,
+    title: "3600 E Bridger Street, Pahrump, Nevada NV",
+    price: "$950,000",
+    tag: "Available",
+  },
+  {
+    id: 10,
+    image: property10,
+    title: "2181 E Winery Road, Pahrump, Nevada NV -6294",
+    price: "$949,000",
+    tag: "For Sale",
   },
 ];
 
@@ -119,9 +173,11 @@ export default function PropertyCarousel() {
                     <img
                       src={property.image}
                       alt={property.title}
-                      className="w-full h-[550px] object-cover"
+                      className="w-full h-[400px] sm:h-[450px] md:h-[500px] lg:h-[550px] object-cover"
                     />
-                    <div className="absolute top-4 right-4 bg-gray-900/70 text-white text-sm px-3 py-1 rounded">
+                    {/* Dark overlay for better text readability */}
+                    <div className="absolute inset-0 bg-black/30"></div>
+                    <div className="absolute top-4 right-4 bg-gray-900/70 text-white text-sm px-3 py-1 rounded z-10">
                       {property.tag}
                     </div>
 
@@ -130,14 +186,14 @@ export default function PropertyCarousel() {
                       {isActive && (
                         <motion.div
                           key={property.id}
-                          className="absolute bottom-6 left-6 text-white text-left"
+                          className="absolute bottom-6 left-6 text-white text-left z-10"
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: 20 }}
                           transition={{ duration: 0.6, ease: "easeOut" }}
                         >
                           <motion.h3
-                            className="text-3xl font-semibold tracking-widest"
+                            className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold tracking-widest"
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2, duration: 0.6 }}
@@ -145,7 +201,7 @@ export default function PropertyCarousel() {
                             {property.title}
                           </motion.h3>
                           <motion.p
-                            className="text-xl"
+                            className="text-sm sm:text-base md:text-lg lg:text-xl"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.4, duration: 0.6 }}

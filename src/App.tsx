@@ -319,9 +319,9 @@ function App() {
 
       {/* Hero Section - Full Screen */}
       <section ref={heroRef} className="h-[95vh] w-full relative z-20">
-        <div className="h-full w-full flex items-end justify-center pb-8 sm:pb-12 lg:pb-16 px-4 sm:px-6 lg:px-8">
+        <div className="h-full w-full flex items-center justify-center px-4 sm:px-6 lg:px-8">
           {/* All text centered */}
-          <div className="text-white flex flex-col items-center text-center max-w-4xl">
+          <div className="text-white flex flex-col items-center text-center max-w-4xl mt-8 sm:mt-12 lg:mt-16">
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-cinzel font-semibold drop-shadow-lg text-center leading-tight">
               MARCI METZGER - THE RIDGE REALTY GROUP
             </h1>
