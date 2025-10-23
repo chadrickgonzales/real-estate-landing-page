@@ -7,6 +7,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
+        'boska': ['Boska', 'serif'],
+        'switzer': ['Switzer', 'sans-serif'],
         'cinzel': ['Cinzel', 'serif'],
         'syncopate': ['Syncopate', 'sans-serif'],
         'bicylette': ['Bicylette', 'sans-serif'],

@@ -169,11 +169,11 @@ export default function PropertyCarousel() {
                     transition: "transform 400ms, opacity 400ms",
                   }}
                 >
-                  <div className="relative overflow-hidden shadow-lg">
+                  <div className="relative overflow-hidden shadow-2xl hover:shadow-3xl transition-shadow duration-300 rounded-md group">
                     <img
                       src={property.image}
                       alt={property.title}
-                      className="w-full h-[400px] sm:h-[450px] md:h-[500px] lg:h-[550px] object-cover"
+                      className="w-full h-[400px] sm:h-[450px] md:h-[500px] lg:h-[550px] object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
                     />
                     {/* Dark overlay for better text readability */}
                     <div className="absolute inset-0 bg-black/30"></div>
@@ -182,35 +182,14 @@ export default function PropertyCarousel() {
                     </div>
 
                     {/* ✅ Animated text section */}
-                    <AnimatePresence mode="wait">
-                      {isActive && (
-                        <motion.div
-                          key={property.id}
-                          className="absolute bottom-6 left-6 text-white text-left z-10"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 20 }}
-                          transition={{ duration: 0.6, ease: "easeOut" }}
-                        >
-                          <motion.h3
-                            className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold tracking-widest"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2, duration: 0.6 }}
-                          >
-                            {property.title}
-                          </motion.h3>
-                          <motion.p
-                            className="text-sm sm:text-base md:text-lg lg:text-xl"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.4, duration: 0.6 }}
-                          >
-                            {property.price}
-                          </motion.p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                    <div className="absolute bottom-6 left-6 text-white text-left z-10 transform translate-y-[150%] group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                      <h3 className="text-lg sm:text-xl lg:text-2xl font-boska font-medium tracking-widest">
+                        {property.title}
+                      </h3>
+                      <p className="text-sm sm:text-base lg:text-lg font-switzer font-normal">
+                        {property.price}
+                      </p>
+                    </div>
                   </div>
                 </div>
               );
@@ -231,7 +210,7 @@ export default function PropertyCarousel() {
 
            {/* View All Button */}
            <div className="text-center md:mr-56">
-             <button className="border border-black px-6 py-3 md:px-10 md:py-4 text-xs md:text-sm font-medium tracking-widest hover:bg-black hover:text-white transition">
+             <button className="border border-black px-6 py-3 md:px-10 md:py-4 text-xs md:text-sm font-medium tracking-widest hover:bg-black hover:text-white transition rounded-md">
                VIEW ALL PROPERTIES
              </button>
            </div>

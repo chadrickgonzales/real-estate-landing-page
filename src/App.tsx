@@ -13,6 +13,95 @@ import image3 from './assets/images/3.webp'
 import owner1 from './assets/images/owner1.webp'
 import droneWebm from './assets/images/drone.webm'
 
+// AnimatedText Component
+const AnimatedText = () => {
+  const [displayText, setDisplayText] = useState<string[]>([])
+  const [isShowingOriginal, setIsShowingOriginal] = useState(true)
+  
+  const originalText = [
+    "With nearly 30 years of experience, Marci Metzger is the face of",
+    "Pahrump's luxury real estate market, with unparalleled passion and",
+    "commitment to the Pahrump Lifestyle. As Pahrump's top residential",
+    "REALTOR® for the past four years, she has closed over $28.5 million in",
+    "sales while assisting nearly 90 clients in 2021 alone, establishing her as",
+    "the definitive authority in Nevada's premier desert community."
+  ]
+  
+  const newText = [
+    "\"I love that small-town feeling that our community offers. My success",
+    "comes from helping clients find homes that suit them as well as our",
+    "community suits me — with spectacular golf courses, parks, and easy",
+    "access to Las Vegas, Pahrump is truly a great place to call home.\"",
+  ]
+  
+  useEffect(() => {
+    // Start with original text
+    setDisplayText(originalText)
+    
+    // Set up the cycling animation
+    const cycleInterval = setInterval(() => {
+      if (isShowingOriginal) {
+        animateText(originalText, newText)
+        setIsShowingOriginal(false)
+      } else {
+        animateText(newText, originalText)
+        setIsShowingOriginal(true)
+      }
+    }, 8000) // Cycle every 8 seconds
+    
+    return () => clearInterval(cycleInterval)
+  }, [isShowingOriginal])
+  
+  const animateText = (fromText: string[], toText: string[]) => {
+    const maxLength = Math.max(fromText.length, toText.length)
+    
+    for (let lineIndex = 0; lineIndex < maxLength; lineIndex++) {
+      setTimeout(() => {
+        const fromLine = fromText[lineIndex] || ''
+        const toLine = toText[lineIndex] || ''
+        
+        animateLine(lineIndex, fromLine, toLine)
+      }, lineIndex * 200) // Stagger each line by 200ms
+    }
+  }
+  
+  const animateLine = (lineIndex: number, fromLine: string, toLine: string) => {
+    const maxLength = Math.max(fromLine.length, toLine.length)
+    
+    for (let charIndex = 0; charIndex < maxLength; charIndex++) {
+      setTimeout(() => {
+        setDisplayText(prev => {
+          const newText = [...prev]
+          
+          // Ensure we have enough lines in the array
+          while (newText.length <= lineIndex) {
+            newText.push('')
+          }
+          
+          if (charIndex < toLine.length) {
+            newText[lineIndex] = toLine.substring(0, charIndex + 1)
+          } else {
+            newText[lineIndex] = toLine
+          }
+          
+          return newText
+        })
+      }, charIndex * 50) // 50ms delay between each character
+    }
+  }
+  
+  return (
+    <p className="text-sm sm:text-base lg:text-lg xl:text-xl font-switzer font-normal text-gray-700 leading-relaxed mb-6 sm:mb-8 text-left">
+      {displayText.map((line, index) => (
+        <span key={index} style={{ display: line.trim() === '' ? 'none' : 'inline' }}>
+          {line}
+          {index < displayText.length - 1 && line.trim() !== '' && <br />}
+        </span>
+      ))}
+    </p>
+  )
+}
+
 function App() {
   
   const [isVideoSticky, setIsVideoSticky] = useState(true)
@@ -199,10 +288,10 @@ function App() {
             {/* Desktop Navigation Links with Logo in Center - Absolutely Centered */}
             <div className="hidden md:flex items-center justify-center w-full">
               <div className="flex items-center space-x-8">
-                <button onClick={() => scrollToSection('home')} className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
+                <button onClick={() => scrollToSection('home')} className="text-white hover:text-blue-300 px-4 py-3 rounded-md text-base lg:text-lg font-boska font-medium transition-colors">
                   Home
                 </button>
-                <button onClick={() => scrollToSection('listings')} className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
+                <button onClick={() => scrollToSection('listings')} className="text-white hover:text-blue-300 px-4 py-3 rounded-md text-base lg:text-lg font-boska font-medium transition-colors">
                   Listings
                 </button>
                 
@@ -215,10 +304,10 @@ function App() {
                   />
                 </div>
                 
-                <button onClick={() => scrollToSection('lets-move')} className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
+                <button onClick={() => scrollToSection('lets-move')} className="text-white hover:text-blue-300 px-4 py-3 rounded-md text-base lg:text-lg font-boska font-medium transition-colors">
                   Let's Move
                 </button>
-                <button onClick={() => scrollToSection('about')} className="text-white hover:text-blue-300 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
+                <button onClick={() => scrollToSection('about')} className="text-white hover:text-blue-300 px-4 py-3 rounded-md text-base lg:text-lg font-boska font-medium transition-colors">
                   About Us
                 </button>
               </div>
@@ -342,10 +431,10 @@ function App() {
         <div className="h-full w-full flex items-center justify-center px-4 sm:px-6 lg:px-8">
           {/* All text centered */}
           <div className="text-white flex flex-col items-center text-center max-w-4xl mt-8 sm:mt-12 lg:mt-16">
-            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-cinzel font-semibold drop-shadow-lg text-center leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-boska font-medium drop-shadow-lg text-center leading-tight mb-4 sm:mb-6 lg:mb-8">
               MARCI METZGER - THE RIDGE REALTY GROUP
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl mb-4 sm:mb-6 lg:mb-8 drop-shadow-md font-cinzel font-semibold text-center">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl drop-shadow-md font-boska font-medium text-center">
               Pahrump Realtor
             </p>
           </div>
@@ -360,13 +449,13 @@ function App() {
         <div className="w-full px-4 sm:px-6 lg:px-16 xl:px-32 2xl:px-64 relative z-10">
           {/* Header Section */}
           <div className="text-center mb-12 sm:mb-16">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-syncopate font-normal text-black mb-4 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-boska font-medium text-black mb-4 tracking-tight">
               PAHRUMP'S #1 LUXURY REALTOR®
             </h1>
-            <p className="text-sm sm:text-base lg:text-lg font-bicylette font-normal text-gray-700 tracking-[2px] sm:tracking-[3px]">
+            <p className="text-sm sm:text-base lg:text-lg font-switzer font-normal text-gray-700 tracking-[2px] sm:tracking-[3px]">
               THE LAST SIX CONSECUTIVE YEARS
             </p>
-            <p className="text-sm sm:text-base lg:text-lg xl:text-xl font-bicylette font-normal text-gray-700 leading-relaxed mt-4 sm:mt-6">
+            <p className="text-sm sm:text-base lg:text-lg xl:text-xl font-switzer font-normal text-gray-700 leading-relaxed mt-4 sm:mt-6">
               With nearly 30 years of experience, Marci Metzger is the face of Pahrump's luxury <br className="hidden sm:block"></br>real estate market, 
               with unparalleled passion and commitment to the Pahrump Lifestyle.
             </p>
@@ -375,41 +464,41 @@ function App() {
           {/* Three Feature Panels */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-12 sm:mb-16 lg:mb-20">
             {/* Panel 1 - Who You Work With Matters */}
-            <div className="relative aspect-square overflow-hidden group cursor-pointer shadow-2xl">
+            <div className="relative aspect-square group cursor-pointer shadow-2xl hover:shadow-3xl transition-shadow duration-300 rounded-md overflow-hidden">
               <img 
                 src={image1} 
                 alt="Modern Interior" 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
               <div className="absolute inset-0 flex items-center justify-center p-4">
-                <h3 className="text-white text-lg sm:text-xl lg:text-2xl font-bicylette font-normal text-center">WHO YOU WORK WITH MATTERS</h3>
+                <h3 className="text-white text-lg sm:text-xl lg:text-2xl font-switzer font-normal text-center">WHO YOU WORK WITH MATTERS</h3>
               </div>
             </div>
 
             {/* Panel 2 - Property Valuation */}
-            <div className="relative aspect-square overflow-hidden group cursor-pointer shadow-2xl">
+            <div className="relative aspect-square group cursor-pointer shadow-2xl hover:shadow-3xl transition-shadow duration-300 rounded-md overflow-hidden">
               <img 
                 src={image2} 
                 alt="Luxury Property" 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
               <div className="absolute inset-0 flex items-center justify-center p-4">
-                <h3 className="text-white text-lg sm:text-xl lg:text-2xl font-bicylette font-normal text-center">PROPERTY VALUATION</h3>
+                <h3 className="text-white text-lg sm:text-xl lg:text-2xl font-switzer font-normal text-center">PROPERTY VALUATION</h3>
               </div>
             </div>
 
             {/* Panel 3 - Press */}
-            <div className="relative aspect-square overflow-hidden group cursor-pointer shadow-2xl sm:col-span-2 lg:col-span-1">
+            <div className="relative aspect-square group cursor-pointer shadow-2xl hover:shadow-3xl transition-shadow duration-300 sm:col-span-2 lg:col-span-1 rounded-md overflow-hidden">
               <img 
                 src={image3} 
                 alt="Professional Portrait" 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
               <div className="absolute inset-0 flex items-center justify-center p-4">
-                <h3 className="text-white text-lg sm:text-xl lg:text-2xl font-bicylette font-normal text-center">PRESS</h3>
+                <h3 className="text-white text-lg sm:text-xl lg:text-2xl font-switzer font-normal text-center">PRESS</h3>
               </div>
             </div>
           </div>
@@ -418,21 +507,16 @@ function App() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 mb-12 sm:mb-16 lg:mb-20">
             {/* Left Side - Text */}
             <div className="flex flex-col justify-start text-left -mt-2">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-syncopate font-normal text-black mb-4 sm:mb-6 tracking-tight text-left">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-boska font-medium text-black mb-4 sm:mb-6 tracking-tight text-left">
                 MEET MARCI METZGER
               </h2>
-              <p className="text-sm sm:text-base lg:text-lg xl:text-xl font-bicylette font-normal text-gray-700 leading-relaxed mb-6 sm:mb-8 text-left">
-                With nearly 30 years of experience, Marci Metzger is the face of Pahrump's luxury real estate market, 
-                with unparalleled passion and commitment to the Pahrump Lifestyle. As Pahrump's top residential REALTOR® 
-                for the past four years, she has closed over $28.5 million in sales while assisting nearly 90 clients 
-                in 2021 alone, establishing her as the definitive authority in Nevada's premier desert community.
-              </p>
+              <AnimatedText />
               
             </div>
 
             {/* Right Side - Portrait */}
             <div className="relative">
-              <div className="aspect-[45/39] overflow-hidden shadow-2xl">
+              <div className="aspect-[45/39] overflow-hidden shadow-2xl hover:shadow-3xl transition-shadow duration-300 rounded-md">
                 <img 
                   src={owner1} 
                   alt="Professional Portrait of Marci Metzger" 
@@ -478,20 +562,26 @@ function App() {
                   <div className="text-gray-500 font-bold text-sm sm:text-base lg:text-lg opacity-60">INMAN</div>
                   <div className="text-gray-500 font-bold text-sm sm:text-base lg:text-lg opacity-60">REALTOR MAGAZINE</div>
                 </div>
+                
+                {/* Third set for ultra-smooth loop */}
+                <div className="flex items-center space-x-6 sm:space-x-8 lg:space-x-12 mr-6 sm:mr-8 lg:mr-12">
+                  <div className="text-gray-500 font-bold text-sm sm:text-base lg:text-lg opacity-60">RISMEDIA</div>
+                  <div className="text-gray-500 font-bold text-sm sm:text-base lg:text-lg opacity-60">PAHRUMP CHAMBER</div>
+                  <div className="text-gray-500 font-bold text-sm sm:text-base lg:text-lg opacity-60">REALTOR.COM</div>
+                  <div className="text-gray-500 font-bold text-sm sm:text-base lg:text-lg opacity-60">ZILLOW</div>
+                  <div className="text-gray-500 font-bold text-sm sm:text-base lg:text-lg opacity-60">HOMES.COM</div>
+                  <div className="text-gray-500 font-bold text-sm sm:text-base lg:text-lg opacity-60">TRULIA</div>
+                  <div className="text-gray-500 font-bold text-sm sm:text-base lg:text-lg opacity-60">REDFIN</div>
+                  <div className="text-gray-500 font-bold text-sm sm:text-base lg:text-lg opacity-60">NEVADA REALTORS</div>
+                  <div className="text-gray-500 font-bold text-sm sm:text-base lg:text-lg opacity-60">INMAN</div>
+                  <div className="text-gray-500 font-bold text-sm sm:text-base lg:text-lg opacity-60">REALTOR MAGAZINE</div>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Achievement Quote Section */}
           <div ref={testimonialSectionRef} className="text-center mb-12 sm:mb-16">
-            <blockquote className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bicylette font-normal text-gray-800 leading-relaxed max-w-4xl mx-auto mb-4 sm:mb-6 px-4">
-              "I love that small-town feeling that our community offers. My success comes from helping clients 
-              find homes that suit them as well as our community suits me — with spectacular golf courses, 
-              parks, and easy access to Las Vegas, Pahrump is truly a great place to call home."
-            </blockquote>
-            <cite className="text-sm sm:text-base lg:text-lg xl:text-xl font-syncopate font-normal text-gray-600">
-              MARCI METZGER - THE RIDGE REALTY GROUP
-            </cite>
           </div>
         </div>
       </section>
@@ -503,43 +593,80 @@ function App() {
           
         >
           {/* Dark overlay for better text readability */}
-          <div className="absolute inset-0 bg-black/40"></div>
+          <div className="absolute inset-0 "></div>
         </div>
         
         {/* Content */}
         <div className="relative z-10 h-[95vh] flex items-center justify-center">
           <div className="w-full h-full">
             <div className="w-full h-full">
-              {/* Three Big Buttons */}
-              <div className="flex flex-col md:grid md:grid-cols-3 gap-0 w-full h-full">
-                {/* Button 1 - Bespoke Marketing */}
-                <div className="group cursor-pointer w-full h-full relative">
+              {/* Bento Style Grid - 5 Buttons */}
+              <div className="relative grid grid-cols-2 md:grid-cols-3 grid-rows-3 md:grid-rows-2 gap-0 w-full h-full">
+                {/* Button 1 - Large top left */}
+                <div className="group cursor-pointer col-span-2 md:col-span-1 md:row-span-2">
                   <div className="bg-transparent border border-white/20 p-4 sm:p-6 lg:p-8 h-full flex items-center justify-center hover:backdrop-blur-md transition-all duration-300 w-full">
-                    <h3 className="text-white font-syncopate text-center tracking-wide group-hover:-translate-y-2 transition-transform duration-300 text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl">
+                    <h3 className="text-white font-syncopate text-center tracking-wide group-hover:-translate-y-2 transition-transform duration-300 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">
                       REAL ESTATE DONE RIGHT
                     </h3>
                   </div>
-                  {/* White divider line for mobile */}
-                  <div className="md:hidden absolute bottom-0 left-4 right-4 h-px bg-white/30"></div>
                 </div>
 
-                {/* Button 2 - Property Valuation */}
-                <div className="group cursor-pointer w-full h-full relative">
-                  <div className="bg-transparent border border-white/20 md:border-l-white md:border-r-white p-4 sm:p-6 lg:p-8 h-full flex items-center justify-center hover:backdrop-blur-md transition-all duration-300 w-full">
-                    <h3 className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-syncopate text-center tracking-wide group-hover:-translate-y-2 transition-transform duration-300">
+                {/* Button 2 - Top right */}
+                <div className="group cursor-pointer">
+                  <div className="bg-transparent border border-white/20 p-4 sm:p-6 lg:p-8 h-full flex items-center justify-center hover:backdrop-blur-md transition-all duration-300 w-full">
+                    <h3 className="text-white text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-syncopate text-center tracking-wide group-hover:-translate-y-2 transition-transform duration-300">
                       COMMERCIAL & RESIDENTIAL
                     </h3>
                   </div>
-                  {/* White divider line for mobile */}
-                  <div className="md:hidden absolute bottom-0 left-4 right-4 h-px bg-white/30"></div>
                 </div>
 
-                {/* Button 3 - Market Leaders */}
-                <div className="group cursor-pointer w-full h-full">
+                {/* Button 3 - Middle right */}
+                <div className="group cursor-pointer">
                   <div className="bg-transparent border border-white/20 p-4 sm:p-6 lg:p-8 h-full flex items-center justify-center hover:backdrop-blur-md transition-all duration-300 w-full">
-                    <h3 className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-syncopate text-center tracking-wide group-hover:-translate-y-2 transition-transform duration-300">
+                    <h3 className="text-white text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-syncopate text-center tracking-wide group-hover:-translate-y-2 transition-transform duration-300">
                       RELY ON EXPERTISE
                     </h3>
+                  </div>
+                </div>
+
+                {/* Button 4 - Bottom left */}
+                <div className="group cursor-pointer">
+                  <div className="bg-transparent border border-white/20 p-4 sm:p-6 lg:p-8 h-full flex items-center justify-center hover:backdrop-blur-md transition-all duration-300 w-full">
+                    <h3 className="text-white text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-syncopate text-center tracking-wide group-hover:-translate-y-2 transition-transform duration-300">
+                      LUXURY PROPERTIES
+                    </h3>
+                  </div>
+                </div>
+
+                {/* Button 5 - Bottom right */}
+                <div className="group cursor-pointer">
+                  <div className="bg-transparent border border-white/20 p-4 sm:p-6 lg:p-8 h-full flex items-center justify-center hover:backdrop-blur-md transition-all duration-300 w-full">
+                    <h3 className="text-white text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-syncopate text-center tracking-wide group-hover:-translate-y-2 transition-transform duration-300">
+                      PREMIUM SERVICE
+                    </h3>
+                  </div>
+                </div>
+
+                {/* Grid Divider Lines Overlay */}
+                <div className="absolute inset-0 pointer-events-none">
+                  {/* Mobile: 2x3 grid - only between sections */}
+                  <div className="md:hidden">
+                    {/* Horizontal line between top and middle rows */}
+                    <div className="absolute top-1/3 left-1/2 right-0 h-0.5 bg-white/30"></div>
+                    {/* Horizontal line between middle and bottom rows */}
+                    <div className="absolute top-2/3 left-0 right-0 h-0.5 bg-white/30"></div>
+                    {/* Vertical line between left and right columns */}
+                    <div className="absolute left-1/2 top-1/3 bottom-0 w-0.5 bg-white/30"></div>
+                  </div>
+                  
+                  {/* Desktop: 3x2 grid - only between sections */}
+                  <div className="hidden md:block">
+                    {/* Horizontal line between top and bottom rows */}
+                    <div className="absolute top-1/2 left-2/3 right-0 h-0.5 bg-white/30"></div>
+                    {/* Vertical line between left column and right columns */}
+                    <div className="absolute left-1/3 top-0 bottom-0 w-0.5 bg-white/30"></div>
+                    {/* Vertical line between middle and right columns */}
+                    <div className="absolute left-2/3 top-0 bottom-0 w-0.5 bg-white/30"></div>
                   </div>
                 </div>
               </div>
@@ -553,17 +680,17 @@ function App() {
         {/* Text Content - Centered at Top */}
         <div className="w-full flex flex-col items-center justify-start pt-12 sm:pt-16 lg:pt-20 px-4 sm:px-8 lg:px-16">
           {/* Main Title */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-syncopate font-normal text-white mb-4 sm:mb-6 text-center" style={{fontWeight: 400, letterSpacing: 0, lineHeight: 1.18}}>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-boska font-medium text-white mb-4 sm:mb-6 text-center" style={{fontWeight: 400, letterSpacing: 0, lineHeight: 1.18}}>
               PROVEN RESULTS
             </h1>
           
           {/* Subtitle */}
-          <h2 className="font-bicylette font-normal text-white mb-6 sm:mb-8 text-center uppercase text-xs sm:text-sm lg:text-base" style={{letterSpacing: '2px'}}>
+          <h2 className="font-switzer font-normal text-white mb-6 sm:mb-8 text-center uppercase text-xs sm:text-sm lg:text-base" style={{letterSpacing: '2px'}}>
             CONSISTENTLY HONORED AMONG PAHRUMP'S SELECT MULTI-MILLION DOLLAR PRODUCERS
           </h2>
           
           {/* Description Paragraph */}
-          <p className="font-bicylette font-normal text-white mb-8 sm:mb-10 lg:mb-12 text-center max-w-4xl mx-auto leading-relaxed text-sm sm:text-base lg:text-lg px-4">
+          <p className="font-switzer font-normal text-white mb-8 sm:mb-10 lg:mb-12 text-center max-w-4xl mx-auto leading-relaxed text-sm sm:text-base lg:text-lg px-4">
             With nearly 30 years of experience, Marci Metzger is the face of Pahrump's luxury real estate market, 
             with unparalleled passion and commitment to the Pahrump Lifestyle. As Pahrump's top residential REALTOR® 
             for the past four years, she has closed over $28.5 million in sales while assisting nearly 90 clients 
@@ -580,25 +707,25 @@ function App() {
                 {/* Stat 1 */}
                 <div>
                   <div className="font-syncopate font-normal text-white mb-2 text-3xl sm:text-4xl lg:text-5xl">$28.5M</div>
-                  <div className="font-bicylette font-normal text-white text-sm sm:text-base lg:text-lg">in 2021 Sales</div>
+                  <div className="font-switzer font-normal text-white text-sm sm:text-base lg:text-lg">in 2021 Sales</div>
                 </div>
                 
                 {/* Stat 2 */}
                 <div>
                   <div className="font-syncopate font-normal text-white mb-2 text-3xl sm:text-4xl lg:text-5xl">#1</div>
-                  <div className="font-bicylette font-normal text-white text-sm sm:text-base lg:text-lg">Realtor in Pahrump</div>
+                  <div className="font-switzer font-normal text-white text-sm sm:text-base lg:text-lg">Realtor in Pahrump</div>
                 </div>
                 
                 {/* Stat 3 */}
                 <div>
                   <div className="font-syncopate font-normal text-white mb-2 text-3xl sm:text-4xl lg:text-5xl">90</div>
-                  <div className="font-bicylette font-normal text-white text-sm sm:text-base lg:text-lg">Clients Assisted in 2021</div>
+                  <div className="font-switzer font-normal text-white text-sm sm:text-base lg:text-lg">Clients Assisted in 2021</div>
                 </div>
                 
                 {/* Stat 4 */}
                 <div>
                   <div className="font-syncopate font-normal text-white mb-2 text-3xl sm:text-4xl lg:text-5xl">30</div>
-                  <div className="font-bicylette font-normal text-white text-sm sm:text-base lg:text-lg">Years Experience</div>
+                  <div className="font-switzer font-normal text-white text-sm sm:text-base lg:text-lg">Years Experience</div>
                 </div>
               </div>
             </div>
@@ -607,20 +734,20 @@ function App() {
           {/* Right Side - Image Collage */}
           <div className="flex-1 relative h-64 sm:h-80 lg:h-auto">
             {/* Main Exterior Image (Right Side) */}
-            <div className="absolute bottom-0 right-0 lg:right-80 w-full lg:w-2/4 h-full">
+            <div className="absolute bottom-0 right-0 lg:right-80 w-full lg:w-2/4 h-full overflow-hidden shadow-2xl hover:shadow-3xl transition-shadow duration-300 rounded-md">
               <img 
                 src={heroWebp} 
                 alt="Luxury Property Exterior" 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover hover:scale-110 transition-transform duration-500 ease-out brightness-90"
               />
             </div>
             
             {/* Interior Kitchen/Living Image (Left Side, Overlapping) */}
-            <div className="absolute top-1/4 -left-8 sm:-left-16 lg:-left-32 w-2/5 h-2/5 z-50">
+            <div className="absolute top-1/4 -left-8 sm:-left-16 lg:-left-32 w-2/5 h-2/5 z-50 overflow-hidden shadow-2xl hover:shadow-3xl transition-shadow duration-300 rounded-md">
               <img 
                 src={image1} 
                 alt="Luxury Interior Kitchen" 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover hover:scale-110 transition-transform duration-500 ease-out"
               />
             </div>
           </div>
@@ -632,10 +759,10 @@ function App() {
         <div className="w-full px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-12 sm:mb-16">
-            <h1 className="font-syncopate font-normal text-black mb-4 tracking-tight text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-boska font-medium text-black mb-4 tracking-tight">
               MARCI METZGER'S CURRENT INVENTORY
             </h1>
-            <p className="font-bicylette font-normal text-gray-700 text-sm sm:text-base lg:text-lg">
+            <p className="font-switzer font-normal text-gray-700 text-sm sm:text-base lg:text-lg">
               REPRESENTING A BESPOKE COLLECTION OF PARHUM'S FINEST PROPERTIES
             </p>
             <div className="w-[80vw] h-px bg-gray-400 mx-auto mt-4 sm:mt-6"></div>
@@ -686,9 +813,9 @@ function App() {
         {/* Content */}
         <div className="relative z-20 h-[60vh] flex items-center justify-center px-4 sm:px-6 lg:px-8">
           <div className="text-center text-white max-w-4xl">
-            <h2 className="font-bicylette font-normal text-2xl sm:text-3xl md:text-4xl lg:text-5xl">Recent Notable Sale</h2>
-            <h3 className="font-normal mb-8 sm:mb-12 lg:mb-24 text-lg sm:text-xl lg:text-2xl" style={{fontFamily: 'Cormorant Garamond'}}>Austin, TX Modern Masterpiece</h3>
-             <p className="font-normal mb-8 sm:mb-12 lg:mb-14 mx-auto leading-relaxed text-sm sm:text-base lg:text-lg xl:text-xl" style={{fontFamily: 'Cormorant Garamond', width: '90%'}}>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-boska font-medium">Recent Notable Sale</h2>
+            <h3 className="font-switzer font-normal mb-8 sm:mb-12 lg:mb-24 text-lg sm:text-xl lg:text-2xl">Austin, TX Modern Masterpiece</h3>
+             <p className="font-switzer font-normal mb-8 sm:mb-12 lg:mb-14 mx-auto leading-relaxed text-sm sm:text-base lg:text-lg xl:text-xl" style={{width: '90%'}}>
               Nestled within the pristine confines of Tarrytown's only privately gated enclave, this opulent estate stands as one
               of just five exclusive residences. Emanating an aura of unparalleled luxury, it boasts an abundance of space
               for gracious living and grand entertainment.
@@ -702,13 +829,13 @@ function App() {
         <div className="w-full px-4 sm:px-6 lg:px-8">
           {/* Header Section */}
           <div className="text-center mb-12 sm:mb-16">
-            <h1 className="font-syncopate font-normal text-black mb-4 tracking-tight text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-boska font-medium text-black mb-4 tracking-tight">
               EXPLORE COMMUNITIES
             </h1>
-            <h2 className="font-bicylette font-normal text-gray-700 mb-6 sm:mb-8 text-sm sm:text-base lg:text-lg">
+            <h2 className="font-switzer font-normal text-gray-700 mb-6 sm:mb-8 text-sm sm:text-base lg:text-lg">
               PAHRUMP REAL ESTATE
             </h2>
-            <p className="font-bicylette font-normal text-gray-600 max-w-4xl mx-auto leading-relaxed text-sm sm:text-base lg:text-lg px-4">
+            <p className="font-switzer font-normal text-gray-600 max-w-4xl mx-auto leading-relaxed text-sm sm:text-base lg:text-lg px-4">
               Searching for Pahrump Real Estate? Real Estate Agent, Marci Metzger, finds property, houses, condos & homes for sale in Downtown Pahrump, Old West Pahrump, Lake Pahrump, Westlake, Tarrytown & nearby.
             </p>
           </div>
@@ -717,17 +844,17 @@ function App() {
           <div className="h-[70vh]">
             <div className="w-full h-full">
               <div className="w-full h-full">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-0 w-full h-full">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-0 w-full h-full rounded-md overflow-hidden">
                   {/* Downtown Pahrump Panel */}
                   <div className="group cursor-pointer w-full h-full relative overflow-hidden">
                     <img 
                       src={image1} 
                       alt="Downtown Pahrump Luxury Interior" 
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-500 ease-out"
                     />
                     <div className="absolute inset-0 bg-black/40"></div>
                     <div className="bg-transparent border border-white/20 p-4 sm:p-6 lg:p-8 h-full flex items-end justify-center hover:backdrop-blur-sm transition-all duration-300 w-full absolute inset-0">
-                      <h3 className="text-white font-syncopate text-center tracking-wide group-hover:-translate-y-2 transition-transform duration-300 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">
+                      <h3 className="text-white font-syncopate text-center tracking-wide group-hover:-translate-y-4 transition-transform duration-300 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">
                         DOWNTOWN PAHRUMP
                       </h3>
                     </div>
@@ -738,11 +865,11 @@ function App() {
                     <img 
                       src={image2} 
                       alt="West Lake Hills Luxury Property" 
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-500 ease-out"
                     />
                     <div className="absolute inset-0 bg-black/40"></div>
                     <div className="bg-transparent border border-white/20 md:border-l-white md:border-r-white p-4 sm:p-6 lg:p-8 h-full flex items-end justify-center hover:backdrop-blur-sm transition-all duration-300 w-full absolute inset-0">
-                      <h3 className="text-white font-bicylette text-center tracking-wide group-hover:-translate-y-2 transition-transform duration-300 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">
+                      <h3 className="text-white font-syncopate text-center tracking-wide group-hover:-translate-y-4 transition-transform duration-300 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">
                         PAHRUMP VALLEY WINERY
                       </h3>
                     </div>
@@ -753,11 +880,11 @@ function App() {
                     <img 
                       src={image3} 
                       alt="Old West Pahrump Traditional Home" 
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-500 ease-out"
                     />
                     <div className="absolute inset-0 bg-black/40"></div>
                     <div className="bg-transparent border border-white/20 p-4 sm:p-6 lg:p-8 h-full flex items-end justify-center hover:backdrop-blur-sm transition-all duration-300 w-full absolute inset-0">
-                      <h3 className="text-white font-bicylette text-center tracking-wide group-hover:-translate-y-2 transition-transform duration-300 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">
+                      <h3 className="text-white font-syncopate text-center tracking-wide group-hover:-translate-y-4 transition-transform duration-300 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">
                         WHEELER SPRINGS PLAZA
                       </h3>
                     </div>
@@ -774,13 +901,13 @@ function App() {
         <div className="w-full px-4 sm:px-6 lg:px-8">
           {/* Header Section */}
           <div className="text-center mb-12 sm:mb-16">
-            <h1 className="font-syncopate font-normal text-black mb-4 tracking-tight text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-boska font-medium text-black mb-4 tracking-tight">
               RECENT PAHRUMP REAL ESTATE BLOGS
             </h1>
-            <h2 className="font-bicylette font-normal text-gray-700 mb-6 sm:mb-8 text-sm sm:text-base lg:text-lg">
+            <h2 className="font-switzer font-normal text-gray-700 mb-6 sm:mb-8 text-sm sm:text-base lg:text-lg">
               BE THE FIRST TO KNOW
             </h2>
-            <p className="font-bicylette font-normal text-gray-600 max-w-4xl mx-auto leading-relaxed text-sm sm:text-base lg:text-lg px-4">
+            <p className="font-switzer font-normal text-gray-600 max-w-4xl mx-auto leading-relaxed text-sm sm:text-base lg:text-lg px-4">
               Your go-to source for the latest trends in real estate, Pahrump, and so much more.
             </p>
           </div>
@@ -808,21 +935,21 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 max-w-6xl mx-auto">
             {/* Blog Post 1 */}
             <div className="bg-white overflow-hidden group cursor-pointer">
-              <div className="aspect-[4/3] overflow-hidden">
+              <div className="aspect-[4/3] overflow-hidden shadow-2xl hover:shadow-3xl transition-shadow duration-300 rounded-md">
                 <img 
                   src={image1} 
                   alt="Luxury Property Interior" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
                 />
               </div>
-              <div className="text-left p-4 sm:p-6 flex flex-col items-start">
-                <h3 className="font-syncopate font-normal text-black mb-3 sm:mb-4 leading-tight mt-4 sm:mt-6 text-base sm:text-lg lg:text-xl text-left">
+              <div className="text-left pr-4 sm:pr-6 pt-4 sm:pt-6 pb-4 sm:pb-6 flex flex-col items-start">
+                <h3 className="font-boska font-medium text-black mb-3 sm:mb-4 leading-tight mt-4 sm:mt-6 text-lg sm:text-xl lg:text-2xl text-left">
                   HOW TO DETERMINE YOUR NON-NEGOTIABLES WHEN BUYING A LUXURY PROPERTY
                 </h3>
-                <p className="font-syncopate text-gray-600 mb-3 sm:mb-4 text-xs sm:text-sm text-left" style={{fontWeight: 600}}>
+                <p className="font-switzer text-gray-600 mb-3 sm:mb-4 text-xs sm:text-sm text-left" style={{fontWeight: 600}}>
                   MARCI METZGER
                 </p>
-                <p className="font-bicylette text-gray-700 leading-relaxed text-sm sm:text-base lg:text-lg text-left">
+                <p className="font-switzer text-gray-700 leading-relaxed text-sm sm:text-base lg:text-lg text-left">
                   What do you need from your luxury home purchase? Define your musts for a smoother transaction.
                 </p>
               </div>
@@ -830,21 +957,21 @@ function App() {
 
             {/* Blog Post 2 */}
             <div className="bg-white overflow-hidden group cursor-pointer">
-              <div className="aspect-[4/3] overflow-hidden">
+              <div className="aspect-[4/3] overflow-hidden shadow-2xl hover:shadow-3xl transition-shadow duration-300 rounded-md">
                 <img 
                   src={image2} 
                   alt="Pahrump Lake Area" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
                 />
               </div>
-              <div className="text-left p-4 sm:p-6">
-                <h3 className="font-syncopate font-normal text-black mb-3 sm:mb-4 leading-tight mt-4 sm:mt-6 text-base sm:text-lg lg:text-xl">
+              <div className="text-left pr-4 sm:pr-6 pt-4 sm:pt-6 pb-4 sm:pb-6">
+                <h3 className="font-boska font-medium text-black mb-3 sm:mb-4 leading-tight mt-4 sm:mt-6 text-lg sm:text-xl lg:text-2xl">
                   PAHRUMP LAKE THINGS TO DO
                 </h3>
-                <p className="font-syncopate text-gray-600 mb-3 sm:mb-4 text-xs sm:text-sm" style={{fontWeight: 600}}>
+                <p className="font-switzer text-gray-600 mb-3 sm:mb-4 text-xs sm:text-sm" style={{fontWeight: 600}}>
                   MARCI METZGER
                 </p>
-                <p className="font-bicylette text-gray-700 leading-relaxed text-sm sm:text-base lg:text-lg">
+                <p className="font-switzer text-gray-700 leading-relaxed text-sm sm:text-base lg:text-lg">
                   Water activities and picturesque hikes on this popular reservoir.
                 </p>
               </div>
@@ -874,9 +1001,9 @@ function App() {
         {/* Content */}
         <div className="relative z-20 h-[60vh] flex items-center justify-center px-4 sm:px-6 lg:px-8">
           <div className="text-center text-white max-w-4xl">
-            <h2 className="font-syncopate font-normal mb-6 sm:mb-8 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">Luxury Real Estate Excellence</h2>
-            <h3 className="font-bicylette font-normal mb-4 sm:mb-6 text-sm sm:text-base lg:text-lg xl:text-xl">Experience the Pahrump Lifestyle</h3>
-            <p className="font-bicylette font-normal max-w-4xl mx-auto leading-relaxed mb-8 sm:mb-10 lg:mb-12 text-sm sm:text-base lg:text-lg xl:text-xl px-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-boska font-medium mb-6 sm:mb-8">Luxury Real Estate Excellence</h2>
+            <h3 className="font-switzer font-normal mb-4 sm:mb-6 text-sm sm:text-base lg:text-lg xl:text-xl">Experience the Pahrump Lifestyle</h3>
+            <p className="font-switzer font-normal max-w-4xl mx-auto leading-relaxed mb-8 sm:mb-10 lg:mb-12 text-sm sm:text-base lg:text-lg xl:text-xl px-4">
               Discover unparalleled luxury living in Pahrump's most exclusive communities. 
               From stunning lakefront properties to prestigious gated communities, 
               find your perfect home with Nevada's premier real estate expert.
@@ -887,13 +1014,13 @@ function App() {
               {/* Contact Button */}
               <button 
                 onClick={() => setIsContactModalOpen(true)}
-                className="bg-white text-black px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-syncopate font-normal text-base sm:text-lg hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full sm:w-auto"
+                className="bg-white text-black px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-switzer font-normal text-base sm:text-lg hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full sm:w-auto"
               >
                 Contact
               </button>
               
               {/* Home Search Button */}
-              <button className="bg-transparent border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-syncopate font-normal text-base sm:text-lg hover:bg-white hover:text-black transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full sm:w-auto">
+              <button className="bg-transparent border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-switzer font-normal text-base sm:text-lg hover:bg-white hover:text-black transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full sm:w-auto">
                 Search Homes
               </button>
           </div>
@@ -916,8 +1043,8 @@ function App() {
             {/* Left Section - Contact Form (Mobile: Full width, Desktop: 30%) */}
             <div className="w-full lg:w-[30%] bg-white flex flex-col justify-center px-4 sm:px-6 lg:px-12 py-8 lg:py-0">
               <div className="max-w-md mx-auto w-full">
-                <p className="font-bicylette text-gray-500 text-xs sm:text-sm mb-2">Let me know how I can assist you.</p>
-                <h2 className="font-syncopate font-normal text-gray-800 mb-6 sm:mb-8 text-2xl sm:text-3xl lg:text-4xl">GET IN TOUCH</h2>
+                <p className="font-switzer text-gray-500 text-xs sm:text-sm mb-2">Let me know how I can assist you.</p>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-boska font-medium text-gray-800 mb-6 sm:mb-8">GET IN TOUCH</h2>
                 
                 <form className="space-y-4 sm:space-y-6">
                   {/* Name Fields */}
@@ -980,7 +1107,7 @@ function App() {
                   {/* Submit Button */}
                   <button
                     type="submit"
-                    className="w-full bg-gray-800 text-white py-3 sm:py-4 rounded-lg font-syncopate font-normal text-base sm:text-lg hover:bg-gray-700 transition-colors duration-300"
+                    className="w-full bg-gray-800 text-white py-3 sm:py-4 rounded-lg font-switzer font-normal text-base sm:text-lg hover:bg-gray-700 transition-colors duration-300"
                   >
                     SUBMIT
                   </button>
@@ -1016,8 +1143,8 @@ function App() {
                   
                   {/* Contact Details - Top Left */}
                   <div className="absolute top-8 sm:top-12 left-8 sm:left-12 text-white text-left">
-                    <h3 className="font-syncopate font-normal mb-6 sm:mb-8 text-left text-3xl sm:text-4xl lg:text-5xl">MARCI METZGER</h3>
-                    <div className="space-y-3 sm:space-y-4 text-lg sm:text-xl text-left">
+                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-boska font-medium mb-6 sm:mb-8 text-left">MARCI METZGER</h3>
+                    <div className="space-y-3 sm:space-y-4 text-sm sm:text-base text-left">
                       <p className="font-bicylette text-left">marci@theridgerealtygroup.com</p>
                       <p className="font-bicylette text-left">702.555.0123</p>
                       <p className="font-bicylette text-left">123 Main Street<br />Pahrump, NV 89048</p>
@@ -1081,7 +1208,7 @@ function App() {
                   </div>
                   <div>
                     <div className="text-xl sm:text-2xl font-syncopate font-bold text-black">METZGER</div>
-                    <div className="text-xs sm:text-sm font-bicylette text-gray-600">THE RIDGE REALTY GROUP</div>
+                    <div className="text-xs sm:text-sm font-switzer text-gray-600">THE RIDGE REALTY GROUP</div>
                   </div>
                 </div>
               </div>
@@ -1112,11 +1239,11 @@ function App() {
           <div className="flex flex-col lg:flex-row justify-between items-center mb-8 sm:mb-10 lg:mb-12">
             {/* Navigation Links */}
             <nav className="flex flex-wrap justify-center lg:justify-start gap-4 sm:gap-6 lg:gap-8 mb-4 sm:mb-6 lg:mb-0">
-              <a href="#home" className="text-black hover:text-gray-600 transition-colors font-bicylette font-medium text-sm sm:text-base">HOME</a>
-              <a href="#about" className="text-black hover:text-gray-600 transition-colors font-bicylette font-medium text-sm sm:text-base">ABOUT MARCI</a>
-              <a href="#listings" className="text-black hover:text-gray-600 transition-colors font-bicylette font-medium text-sm sm:text-base">FEATURED PROPERTIES</a>
-              <a href="#communities" className="text-black hover:text-gray-600 transition-colors font-bicylette font-medium text-sm sm:text-base">NEIGHBORHOODS</a>
-              <a href="#contact" className="text-black hover:text-gray-600 transition-colors font-bicylette font-medium text-sm sm:text-base">LET'S CONNECT</a>
+              <a href="#home" className="text-black hover:text-gray-600 transition-colors font-boska font-medium text-sm sm:text-base">HOME</a>
+              <a href="#about" className="text-black hover:text-gray-600 transition-colors font-boska font-medium text-sm sm:text-base">ABOUT MARCI</a>
+              <a href="#listings" className="text-black hover:text-gray-600 transition-colors font-boska font-medium text-sm sm:text-base">FEATURED PROPERTIES</a>
+              <a href="#communities" className="text-black hover:text-gray-600 transition-colors font-boska font-medium text-sm sm:text-base">NEIGHBORHOODS</a>
+              <a href="#contact" className="text-black hover:text-gray-600 transition-colors font-boska font-medium text-sm sm:text-base">LET'S CONNECT</a>
             </nav>
             
             {/* Social Media Icons */}
@@ -1147,24 +1274,24 @@ function App() {
           {/* Legal Disclaimers & Broker Information */}
           <div className="mb-6 sm:mb-8">
             <div className="space-y-2 mb-3 sm:mb-4">
-              <p className="text-xs sm:text-sm font-bicylette text-gray-600">
+              <p className="text-xs sm:text-sm font-switzer text-gray-600">
                 <a href="#" className="underline hover:text-black transition-colors">Nevada Real Estate Commission Consumer Protection Notice</a>
               </p>
-              <p className="text-xs sm:text-sm font-bicylette text-gray-600">
+              <p className="text-xs sm:text-sm font-switzer text-gray-600">
                 <a href="#" className="underline hover:text-black transition-colors">Nevada Real Estate Commission Information About Brokerage Services</a>
               </p>
-              <p className="text-xs sm:text-sm font-bicylette text-gray-600">
+              <p className="text-xs sm:text-sm font-switzer text-gray-600">
                 <a href="#" className="underline hover:text-black transition-colors">NREC Disclaimer</a>
               </p>
-              <p className="text-xs sm:text-sm font-bicylette text-gray-600">
+              <p className="text-xs sm:text-sm font-switzer text-gray-600">
                 The Ridge Realty Group | 702.555.0123
               </p>
-              <p className="text-xs sm:text-sm font-bicylette text-gray-600">
+              <p className="text-xs sm:text-sm font-switzer text-gray-600">
                 Broker Of The Firm | Marci Metzger
               </p>
             </div>
             
-            <p className="text-xs font-bicylette text-gray-500 leading-relaxed mb-3 sm:mb-4">
+            <p className="text-xs font-switzer text-gray-500 leading-relaxed mb-3 sm:mb-4">
               The Ridge Realty Group® and The Ridge Realty Group Logo are service marks licensed to The Ridge Realty Group Affiliates LLC and used with permission. 
               The Ridge Realty Group fully supports the principles of the Fair Housing Act and the Equal Opportunity Act. Each office is independently owned and operated. 
               Any services or products provided by independently owned and operated franchisees are not provided by, affiliated with or related to The Ridge Realty Group 
@@ -1175,11 +1302,11 @@ function App() {
             <div className="flex flex-wrap gap-4 sm:gap-6 mb-4 sm:mb-6">
               <div className="flex items-center">
                 <div className="w-6 h-6 sm:w-8 sm:h-8 bg-black text-white flex items-center justify-center text-xs font-bold mr-2">R</div>
-                <span className="text-xs font-bicylette text-gray-600">REALTOR</span>
+                <span className="text-xs font-switzer text-gray-600">REALTOR</span>
               </div>
               <div className="flex items-center">
                 <div className="w-6 h-6 sm:w-8 sm:h-8 bg-black text-white flex items-center justify-center text-xs font-bold mr-2">=</div>
-                <span className="text-xs font-bicylette text-gray-600">EQUAL HOUSING OPPORTUNITY</span>
+                <span className="text-xs font-switzer text-gray-600">EQUAL HOUSING OPPORTUNITY</span>
               </div>
             </div>
           </div>
@@ -1187,10 +1314,10 @@ function App() {
           {/* Bottom Section - Copyright & Powered By */}
           <div className="border-t border-gray-200 pt-4 sm:pt-6">
             <div className="flex flex-col lg:flex-row justify-between items-center">
-              <p className="text-xs sm:text-sm font-bicylette text-gray-500 mb-2 lg:mb-0">
+              <p className="text-xs sm:text-sm font-switzer text-gray-500 mb-2 lg:mb-0">
                 Powered by <a href="#" className="underline hover:text-black transition-colors">Chadrick Gonzales</a>
               </p>
-              <p className="text-xs sm:text-sm font-bicylette text-gray-500">
+              <p className="text-xs sm:text-sm font-switzer text-gray-500">
                 Copyright © 2025 | <a href="#" className="underline hover:text-black transition-colors">Privacy Policy</a>
               </p>
             </div>
